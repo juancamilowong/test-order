@@ -46,8 +46,11 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public String sendOrder(Order order, BillInfo billInfo) {
 		headers.setContentType(MediaType.APPLICATION_JSON);
+		OrderWrapper ow = new OrderWrapper();
+		ow.setOrder(order);
+		ow.setBillInfo(billInfo);
 		ResponseEntity<String> responseLogistic = restTemplate.exchange(URL_LOGISTIC,
-				HttpMethod.POST, new HttpEntity<>(new OrderWrapper(order, billInfo), headers), String.class);
+				HttpMethod.POST, new HttpEntity<>(ow, headers), String.class);
 
 		return responseLogistic.getBody();
 
